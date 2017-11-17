@@ -8,26 +8,86 @@
   <body>
     <a-scene>
 
-        <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" shadow></a-box>
+       <!-- <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" shadow></a-box> 
         <a-sphere src="images/1.jpg" position="0 1.25 -5" radius="1.25" color="#fff" rotation="45 45 45" shadow>
             <a-animation attribute="rotation" begin="click" repeat="indefinire" to="0 360 0"></a-animation>
         </a-sphere>
         <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
-        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>
-        <a-sky src="images/Paesaggio.jpg"></a-sky>
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>-->
+       <a-sky src="images/ballerina.jpg">
+            <!--<a-box id="obj" position="-1 0.5 -3" scale="3 3 3" rotation="0 45 0" shadow></a-box>-->
+        </a-sky>
         
         <!--e-event name="mousecenter" scale="4 1 6"></e-event-->
         
         <a-camera position="0 7 5">
             <a-cursor color="#ff0000"/>
         </a-camera>
-        
-        <a-light type="spot" color="ff0000" position="-10 0 0" look-at="a-box"></a-light>
-        <a-light type="point" color="00ff00" position="0 5 0" look-at="a-box"></a-light>
+         <a-entity daydream-controls="hand: left"></a-entity>
+        <a-entity raycaster="showLine: true; far: 100" line="color: orange; opacity: 0.5"></a-entity>
+      <!--  <a-light type="spot" color="ff0000" position="-10 0 0" look-at="a-box"></a-light>
+        <a-light type="point" color="00ff00" position="0 5 0" look-at="a-box"></a-light> -->
         
     </a-scene>
       
       <script>
+        var sphere= document.createElement('a-sphere');
+        sphere.setAttribute('radius', 1);
+        sphere.setAttribute('id', 'sp');
+        document.querySelector("a-sky").appendChild(sphere);
+        sphere.setAttribute("position",'-2, 0, -7');  
+        console.log('id: '+sphere.getAttribute('id') );
+      </script>
+      
+      
+      <script>
+          var raycaster = new THREE.Raycaster(); 
+          var mouse = new THREE.Vector3(); 
+          mouse.setX(MouseInfo.getPointerInfo().getLocation().x);
+          mouse.setY(MouseInfo.getPointerInfo().getLocation().y);
+          mouse.setZ(MouseInfo.getPointerInfo().getLocation().z);
+          var intersects = raycaster.intersectObjects( objects );
+          intersects.addEventListener("mousedown", function(){
+              intersects.setAttribute('color', 'red');
+          });
+      </script>
+      
+      <script>
+          var sphere=document.querySelector('#sp');
+          sphere.addEventListener("mouseup", function(){
+              sphere.setAttribute('color', 'white');
+          });
+      </script>
+      <!--   <script>
+            var box= document.querySelector('a-box');
+          
+        box.addEventListener("mouseenter",function()
+                              {
+              box.setAttribute("position",
+                 {
+                    var position = box.getAttribute(position);
+                    x: position.x +1,
+                    y:0.5,
+                    z:-3
+                });
+              }); 
+      </script>
+      
+     <script>
+            box.addEventListener("onmouseup",function()
+                               {
+                box.setAttribute("position",
+                                {
+                    x:-5,
+                    y:0.5,
+                    z:-3
+                });
+              
+          });
+          
+    </script>
+  
+     <!--<script>
           var box = document.querySelector('a-box');
         box.addEventListener("mouseenter", function()
         {
@@ -39,7 +99,7 @@
             });
         });
           
-      </script>
+      </script> -->
       
   </body>
 </html>
