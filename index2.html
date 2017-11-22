@@ -2,66 +2,47 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src='js/raycaster.js'></script>
+    <script src='json/ignore.json'></script>
     <title>Hello, WebVR! - A-Frame</title>
     <meta name="description" content="Hello, WebVR! - A-Frame">
-    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
   </head>
   <body>
-    <a-scene antialias="true" id="scene">
+    <a-scene id="scene">
+    
+        <a-camera>
+            <a-entity id="pointer" geometry='primitive: sphere; radius:0.2' material='color: white' radius='0.2' position='0 0 -5' sphere-behavior collider></a-entity>
+        </a-camera>
         
         <a-entity daydream-controls="hand: right">
-  	         <a-sphere id="laserpointer" visible="true" position=" 0 0 -5" radius="0.1" color='white' shadow></a-sphere>
+            <a-entity laser-controls line="color: red; opacity: 0.75"></a-entity>
+            <a-entity laser-controls raycaster="objects: .links; far: 5"></a-entity>
+            <a-entity id="laserpointer" visible="false" position=" 0 0 -5"></a-entity>
         </a-entity>
-  
-        <a-sky src="https://cdn.glitch.com/823bf6ce-5a8f-4dab-a813-00a0f8761f44%2F24119419788_2e07b2adf4_k.jpg?1509204758300"></a-sky>
-
-        <a-text value="Prova" scale="10 10 10" color="#E52B50" position="0 2.5 -10" align="center">
-        </a-text>
         
-        <a-box id='toBring' visible="true" position="2 3 -5" width="2" depth="2" height="2" color="green">
-            <a-sphere id="touchpad-contact" visible="false" position="0 0.05 0" radius="2" color="pink"></a-sphere>
-        </a-box>
+        <a-sky color='black'></a-sky>
         
-    </a-scene>
+        <a-entity id='toBring'></a-entity>
+        
+    </a-scene>  
       
+    <!--modifico a-entity che poi sposterò-->
+    <script>
+        var obj= document.querySelector('#toBring');
+        obj.setAttribute('geometry', 'primitive: sphere');
+        obj.setAttribute('material', 'color: red');
+        obj.setAttribute('position', '0 0 -4');
+        obj.setAttribute('visible', 'true');
+    </script>  
       
-      <script>
-          var scene= document.querySelector("#scene");
-          scene.addEventListener('trackpaddown', function(){
-             var sky= document.querySelector("a-sky");
-              sky.setAttribute('color', 'black');
-          });
-      </script>
-    
-    <!-- <script>
-        var shouldDrawShit = false;
-        var touchpadContactObj = document.querySelector('#touchpad-contact');
-        var socket = io.connect('', { query: 'type=scene' });
-        var spost= document.querySelector('#toBring');
-        spost.addEventListener('trackpadchanged', function(){
-            spost.setAttribute('color', 'black');
+    <!--prova collisione-->
+    <script>
+        var punt= document.querySelector('#pointer');
+        var collision= punt.intersectObject
+        punt.addEventListener('collide', function(){
+            punt.setAttribute('material', 'color: white');
+            console.log('collisione!');
         });
-        
-        socket.on('trackpad:touchstart', function () {
-                laserpointer.setAttribute('visible', false);
-                touchpadContactObj.setAttribute('visible',true);
-                shouldDrawShit = true;
-        });
-            
-        socket.on('trackpad:touchend', function () {
-                laserpointer.setAttribute('visible', true);
-                touchpadContactObj.setAttribute('visible',false);
-                shouldDrawShit = false;
-            });
-        
     </script>
-    
-    <!--  <script>  
-          var sfondo= document.querySelector('a-sky');
-          sphere.addEventListener('trackpaddown',function(){
-             sfondo.setAttribute('color','black');
-          });
-      </script-->
   </body>
 </html>

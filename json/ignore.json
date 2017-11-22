@@ -1,0 +1,9 @@
+"semistandard": {
+  "globals": [
+    "AFRAME",
+    "THREE"
+  ],
+  "ignore": [
+    "build/**"
+  ]
+}

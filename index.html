@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-
-<!DOCTYPE html>
 <html>
   <head>
     <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
@@ -13,8 +11,10 @@
     <a-scene antialias="true" id="scene">
         
         <a-entity daydream-controls="hand: right">
-  	         <a-sphere id="laserpointer" visible="true" position=" 0 0 -5" radius="0.1" color='white' shadow></a-sphere>
+  	         <a-entity id="laserpointer" visible="false" position=" 0 0 -5"></a-entity>
         </a-entity>
+        
+        <a-entity geometry="primitive: box" material="color:yellow" position="0 2.5 -8" width="4" depth="4" height="4" ></a-entity>
   
         <a-sky src="https://cdn.glitch.com/823bf6ce-5a8f-4dab-a813-00a0f8761f44%2F24119419788_2e07b2adf4_k.jpg?1509204758300"></a-sky>
 
@@ -35,42 +35,38 @@
               sky.setAttribute('color', 'black');
           });
       </script>
-    
-    <!-- <script>
-        var shouldDrawShit = false;
-        var touchpadContactObj = document.querySelector('#touchpad-contact');
-        var socket = io.connect('', { query: 'type=scene' });
-        var spost= document.querySelector('#toBring');
-        spost.addEventListener('trackpadchanged', function(){
-            spost.setAttribute('color', 'black');
-        });
-        
-        socket.on('trackpad:touchstart', function () {
-                laserpointer.setAttribute('visible', false);
-                touchpadContactObj.setAttribute('visible',true);
-                shouldDrawShit = true;
-        });
-            
-        socket.on('trackpad:touchend', function () {
-                laserpointer.setAttribute('visible', true);
-                touchpadContactObj.setAttribute('visible',false);
-                shouldDrawShit = false;
-            });
-        
-    </script>
-    
-    <!--  <script>  
-          var sfondo= document.querySelector('a-sky');
-          sphere.addEventListener('trackpaddown',function(){
-             sfondo.setAttribute('color','black');
-          });
-      </script-->
+      
+      
+      <!-- script per rendere visibile puntatore se trackpad premuto -->
       <script>
-        box.addEventListener('mouseenter', function(){
-            box.setAttribute('color','black');
+        var pointer= document.querySelector('#laserpointer');
+        pointer.addEventListener('trackpaddown', function addPointer(){
+            pointer.setAttribute('visible','true');
+            pointer.setAttribute('geometry', "primitive: sphere");
+            pointer.setAttribute('material', "color: white"); 
         });
       </script>
       
+      <!-- rendere invisibile il puntatore quando rilasci il tasto-->
+      <script>
+        var pointer= document.querySelector('#laserpointer');
+        pointer.addEventListener('trackpadup', function removepointer(){
+            pointer.setAttribute('visible','false');
+        });
+      </script>
+      
+      <!-- script per interzione tra puntatore e oggetto qualsiasi-->
+      <script>
+            var pointer= document.querySelector('#laserpointer');
+            pointer.addEventListener('collide', function collision(){
+               if pointer.getAttribute('visible')
+                {
+                    document.querySelector('a-sky').setAttribute('color', 'black');
+                }
+            });
+     </script>
+    
+      <!--crea una sfera rossa-->
       <script>
         var sphere= document.createElement('a-sphere');
         sphere.setAttribute('radius', 1);
@@ -84,68 +80,6 @@
       </script>
       
             
-      <script>  
-          var obj= document.querySelector('#sp');
-          sphere.addEventListener('trackpaddown',function(){
-             sphere.setAttribute('color','white');
-          });
-      </script>
-      
-      <script>
-          var sphere=document.querySelector('#sp');
-          sphere.addEventListener("mouseup", function(){
-              sphere.setAttribute('color', 'white');
-          });
-      </script>
-      
-      <script>
-          var sphere=document.querySelector('#sp');
-          sphere.addEventListener("mousedown", function(){
-              sphere.setAttribute('color', 'green');
-          });
-      </script>
-      <!--   <script>
-            var box= document.querySelector('a-box');
-          
-        box.addEventListener("mouseenter",function()
-                              {
-              box.setAttribute("position",
-                 {
-                    var position = box.getAttribute(position);
-                    x: position.x +1,
-                    y:0.5,
-                    z:-3
-                });
-              }); 
-      </script>
-      
-     <script>
-            box.addEventListener("onmouseup",function()
-                               {
-                box.setAttribute("position",
-                                {
-                    x:-5,
-                    y:0.5,
-                    z:-3
-                });
-              
-          });
-          
-    </script>
-  
-     <!--<script>
-          var box = document.querySelector('a-box');
-        box.addEventListener("mouseenter", function()
-        {
-            box.setAttribute("scale",
-            {
-                x:0.5,
-                y:2,
-                z:5.9
-            });
-        });
-          
-      </script> -->
-      
+    
   </body>
 </html>
