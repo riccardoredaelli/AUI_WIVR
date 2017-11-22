@@ -1,54 +1,93 @@
 <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html>
   <head>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <title>Hello, WebVR! - A-Frame</title>
     <meta name="description" content="Hello, WebVR! - A-Frame">
     <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
   </head>
   <body>
-    <a-scene>
+    <a-scene antialias="true" id="scene">
+        
+        <a-entity daydream-controls="hand: right">
+  	         <a-sphere id="laserpointer" visible="true" position=" 0 0 -5" radius="0.1" color='white' shadow></a-sphere>
+        </a-entity>
+  
+        <a-sky src="https://cdn.glitch.com/823bf6ce-5a8f-4dab-a813-00a0f8761f44%2F24119419788_2e07b2adf4_k.jpg?1509204758300"></a-sky>
 
-       <!-- <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" shadow></a-box> 
-        <a-sphere src="images/1.jpg" position="0 1.25 -5" radius="1.25" color="#fff" rotation="45 45 45" shadow>
-            <a-animation attribute="rotation" begin="click" repeat="indefinire" to="0 360 0"></a-animation>
-        </a-sphere>
-        <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D" shadow></a-cylinder>
-        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" shadow></a-plane>-->
-       <a-sky src="images/ballerina.jpg">
-            <!--<a-box id="obj" position="-1 0.5 -3" scale="3 3 3" rotation="0 45 0" shadow></a-box>-->
-        </a-sky>
+        <a-text value="Prova" scale="10 10 10" color="#E52B50" position="0 2.5 -10" align="center">
+        </a-text>
         
-        <!--e-event name="mousecenter" scale="4 1 6"></e-event-->
-        
-        <a-camera position="0 7 5">
-            <a-cursor color="#ff0000"/>
-        </a-camera>
-         <a-entity daydream-controls="hand: left"></a-entity>
-        <a-entity raycaster="showLine: true; far: 100" line="color: orange; opacity: 0.5"></a-entity>
-      <!--  <a-light type="spot" color="ff0000" position="-10 0 0" look-at="a-box"></a-light>
-        <a-light type="point" color="00ff00" position="0 5 0" look-at="a-box"></a-light> -->
+        <a-box id='toBring' visible="true" position="2 3 -5" width="2" depth="2" height="2" color="green">
+            <a-sphere id="touchpad-contact" visible="false" position="0 0.05 0" radius="2" color="pink"></a-sphere>
+        </a-box>
         
     </a-scene>
+      
+      
+      <script>
+          var scene= document.querySelector("#scene");
+          scene.addEventListener('trackpaddown', function(){
+             var sky= document.querySelector("a-sky");
+              sky.setAttribute('color', 'black');
+          });
+      </script>
+    
+    <!-- <script>
+        var shouldDrawShit = false;
+        var touchpadContactObj = document.querySelector('#touchpad-contact');
+        var socket = io.connect('', { query: 'type=scene' });
+        var spost= document.querySelector('#toBring');
+        spost.addEventListener('trackpadchanged', function(){
+            spost.setAttribute('color', 'black');
+        });
+        
+        socket.on('trackpad:touchstart', function () {
+                laserpointer.setAttribute('visible', false);
+                touchpadContactObj.setAttribute('visible',true);
+                shouldDrawShit = true;
+        });
+            
+        socket.on('trackpad:touchend', function () {
+                laserpointer.setAttribute('visible', true);
+                touchpadContactObj.setAttribute('visible',false);
+                shouldDrawShit = false;
+            });
+        
+    </script>
+    
+    <!--  <script>  
+          var sfondo= document.querySelector('a-sky');
+          sphere.addEventListener('trackpaddown',function(){
+             sfondo.setAttribute('color','black');
+          });
+      </script-->
+      <script>
+        box.addEventListener('mouseenter', function(){
+            box.setAttribute('color','black');
+        });
+      </script>
       
       <script>
         var sphere= document.createElement('a-sphere');
         sphere.setAttribute('radius', 1);
+        sphere.setAttribute('color', 'red');
         sphere.setAttribute('id', 'sp');
         document.querySelector("a-sky").appendChild(sphere);
         sphere.setAttribute("position",'-2, 0, -7');  
         console.log('id: '+sphere.getAttribute('id') );
+        var cam=document.querySelector('a-camera');
+        console.log('wasd enabled:'+ cam.getAttribute('wasd-controls-enabled'));
       </script>
       
-      
-      <script>
-          var raycaster = new THREE.Raycaster(); 
-          var mouse = new THREE.Vector3(); 
-          mouse.setX(MouseInfo.getPointerInfo().getLocation().x);
-          mouse.setY(MouseInfo.getPointerInfo().getLocation().y);
-          mouse.setZ(MouseInfo.getPointerInfo().getLocation().z);
-          var intersects = raycaster.intersectObjects( objects );
-          intersects.addEventListener("mousedown", function(){
-              intersects.setAttribute('color', 'red');
+            
+      <script>  
+          var obj= document.querySelector('#sp');
+          sphere.addEventListener('trackpaddown',function(){
+             sphere.setAttribute('color','white');
           });
       </script>
       
@@ -56,6 +95,13 @@
           var sphere=document.querySelector('#sp');
           sphere.addEventListener("mouseup", function(){
               sphere.setAttribute('color', 'white');
+          });
+      </script>
+      
+      <script>
+          var sphere=document.querySelector('#sp');
+          sphere.addEventListener("mousedown", function(){
+              sphere.setAttribute('color', 'green');
           });
       </script>
       <!--   <script>
