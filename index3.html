@@ -12,9 +12,16 @@
     
   <!--  
               <a-entity raycaster="objects: .collidable; showLine: true; far: 100" line="color: orange; opacity: 0.5" position="0 0 0"></a-entity> 
--->
+-->         
+        <a-camera position='0 10 0'></a-camera>
       
         <a-entity id='sp' aabb-collider class='collidable' geometry="primitive: box" position="4 0 -3" material='color: yellow'></a-entity>
+        
+        <a-assets>
+            <a-asset-item id="your-obj" src="model/strada2/Roads/Roads.obj"></a-asset-item>
+            <a-asset-item id="your-mtl" src="model/strada2/Roads/Roads.mtl"></a-asset-item>
+        </a-assets>
+        <a-entity obj-model="obj: #your-obj; mtl: #your-mtl"></a-entity>
         
         <a-entity id='dayd' daydream-controls="hand: right">
             <a-entity id='cursor' cursor raycaster="objects: .collidable;" geometry="primitive: box; width: 0.2; height: 100; depth: 0.2" material="shader: flat; color:gray" position="0 -0.9 0" rotation="90 0 0" ></a-entity>
