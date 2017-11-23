@@ -9,64 +9,58 @@
   <body>
     <a-scene antialias="true" id="scene">
         
-        <a-entity daydream-controls="hand: right">
-  	         <a-entity id="laserpointer" class="collidable"   geometry='primitive: sphere' visible="true" position=" 0 0 -5" material='color: green'></a-entity>
+        <a-entity id='startingSphere' collider-check class='collidable' geometry="primitive: sphere" position="-5 0 -8" material='color: white' visible='true'></a-entity>
+        
+        <a-entity id='finalSphere' collider-check class='collidable' geometry="primitive: sphere" position="5 0 -8" material='color: white'></a-entity>
+        
+        <a-entity id='road' collider-check class='collidable' geometry='primitive: box; high:0.5;  width: 10; height: 0.5' position="0 0 -8" material='color:white'></a-entity>
+        
+        <a-box id='sky' color='green' position='0 0 -15' scale='100 100 0.5'></a-box>
+
+        
+        <a-entity id='dayd' daydream-controls="hand: right">
+            <a-entity id='cursor' cursor raycaster="objects: .collidable; showLine: true; far: 100" line="color: orange; opacity: 0.5" position="0 0 0"></a-entity> 
+            <a-entity id="laserpointer" visible="false" position=" 0 0 0"></a-entity>
         </a-entity>
         
-        <a-entity  geometry="primitive: box" material="color:yellow" position="0 2.5 -8" width="4" depth="4" height="4" collider-check></a-entity>
-  
-        <a-sky src="https://cdn.glitch.com/823bf6ce-5a8f-4dab-a813-00a0f8761f44%2F24119419788_2e07b2adf4_k.jpg?1509204758300"></a-sky>
-
-        <a-box collider-check id='toBring' visible="true" position="2 3 -5" width="2" depth="2" height="2" color="green"></a-box>
+        <script>
+            var init=document.querySelector('#startingSphere');
+            var end=document.querySelector('#finalSphere');
+            var road=document.querySelector('#road');
+            var scene=document.querySelector('#scene');
+            var sky=document.querySelector('#sky');
+            var isIntersected=Boolean;
+            isIntersected='false';
+            
+            init.addEventListener('raycaster-intersected',function evidenzia(){
+                isIntersected='true';
+                init.setAttribute('material', 'color: red');
+            })
         
+            init.addEventListener('raycaster-intersected-cleared',function sbianca(){
+                isIntersected='false';
+                init.setAttribute('material', 'color: white');
+            })
+            
+
+            scene.addEventListener('trackpaddown', function(){
+                if (isIntersected=='true'){
+                    init.setAttribute('visible', false);   <!-- errore-->
+                    road.addEventListener('raycaster-intersected', function(){
+                        road.setAttribute('material', 'color:red');
+                    })
+                    sky.addEventListener('raycaster-intersected', function(){
+                            road.setAttribute('material', 'color:white');
+                            return;
+                        })
+                    }
+                else return;
+                })
+            
+            
+            
+        </script>
+            
     </a-scene>
-      
-      
-      <script>
-          var scene= document.querySelector("#scene");
-          scene.addEventListener('trackpaddown', function(){
-             var sky= document.querySelector("a-sky");
-              sky.setAttribute('color', 'black');
-          });
-      </script>
-      
-            <script>
-          var scene= document.querySelector("#scene");
-          scene.addEventListener('trackpadup', function(){
-             var sky= document.querySelector("a-sky");
-              sky.setAttribute('color','white');
-          });
-      </script>
-      
-      <script>
-          var b= document.querySelector('#toBring');
-        b.addEventListener('trackpaddown', function(){
-            b.setAttribute('color','white');
-        });
-      </script>
-      
-      <!-- script per rendere visibile puntatore se trackpad premuto -->
-      <script>
-        var pointer= document.querySelector('#laserpointer');
-        pointer.addEventListener('trackpaddown', function addPointer(){
-            pointer.setAttribute('visible','true');
-        });
-      </script>
-      
-      <!-- rendere invisibile il puntatore quando rilasci il tasto-->
-      <script>
-        var pointer= document.querySelector('#laserpointer');
-        pointer.addEventListener('trackpadup', function removepointer(){
-            pointer.setAttribute('visible','false');
-        });
-      </script>
-      
-      <!-- script per interzione tra puntatore e oggetto qualsiasi-->
-      <script>
-            var pointer= document.querySelector('#laserpointer');
-            pointer.addEventListener('collide', function collision(){
-                    document.querySelector('a-sky').setAttribute('color', 'black');
-            });
-     </script>
   </body>
 </html>
