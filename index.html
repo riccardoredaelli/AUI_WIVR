@@ -2,10 +2,8 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
     <title>Hello, WebVR! - A-Frame</title>
     <meta name="description" content="Hello, WebVR! - A-Frame">
-    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
   </head>
   <body>
     <a-scene antialias="true" id="scene">
@@ -27,6 +25,7 @@
         
     </a-scene>
       
+
       
       <script>
           var scene= document.querySelector("#scene");
@@ -59,12 +58,13 @@
       <script>
             var pointer= document.querySelector('#laserpointer');
             pointer.addEventListener('collide', function collision(){
-               if pointer.getAttribute('visible')
+               if (pointer.getAttribute('visible')=='true')
                 {
                     document.querySelector('a-sky').setAttribute('color', 'black');
                 }
             });
      </script>
+      
     
       <!--crea una sfera rossa-->
       <script>
@@ -76,7 +76,6 @@
         sphere.setAttribute("position",'-2, 0, -7');  
         console.log('id: '+sphere.getAttribute('id') );
         var cam=document.querySelector('a-camera');
-        console.log('wasd enabled:'+ cam.getAttribute('wasd-controls-enabled'));
       </script>
       
             
