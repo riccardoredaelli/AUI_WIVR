@@ -27,16 +27,22 @@
             var s= document.querySelector('a-sky');
             var sp=document.querySelector('#sp');
             var cursor=document.querySelector('#cursor');
+            var intersection= Boolean;
+            intersection='false';
             sp.addEventListener('raycaster-intersected', function(){
+                intersection='true';
                 s.setAttribute('color', 'red');
                 scene.addEventListener('trackpaddown',function(){
-                    sp.parentNode.removeChild(sp);
-                    cursor.setAttribute('visible', false);
-                    var n= document.createElement('a-sphere');
-                    document.querySelector('#dayd').appendChild(n);
-                    n.setAttribute('color','yellow');
-                    n.setAttribute('id','n');
-                    n.setAttribute('position','0 0 -5');
+                    if (intersection=='true'){
+                        sp.parentNode.removeChild(sp);
+                        cursor.setAttribute('visible', false);
+                        var n= document.createElement('a-sphere');
+                        document.querySelector('#dayd').appendChild(n);
+                        n.setAttribute('color','yellow');
+                        n.setAttribute('id','n');
+                        n.setAttribute('position','0 0 -5');
+                    }
+                    else return;
                 });
                 scene.addEventListener('trackpadup',function(){
                         var sp1= document.createElement('a-sphere');
@@ -49,6 +55,11 @@
                         spGialla.parentNode.removeChild(spGialla);
                 });
             });
+            sp.addEventListener('raycaster-intersected-cleared', function(){
+                intersection='false';
+                s.setAttribute('color', 'black');
+            })
+            
         </script>
         
         <script>
