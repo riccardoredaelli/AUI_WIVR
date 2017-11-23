@@ -3,27 +3,44 @@
   <head>
     <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
     <script src='js/collidable.js'></script>
+    <script src='js/aabb-collider.js'></script>
     <title>Hello, WebVR! - A-Frame</title>
     <meta name="description" content="Hello, WebVR! - A-Frame">
   </head>
   <body>
     <a-scene id="scene">
     
-        <a-camera>
-            <a-cursor color='white'> 
-            </a-cursor>
-        </a-camera>
-
+  <!--  
+              <a-entity raycaster="objects: .collidable; showLine: true; far: 100" line="color: orange; opacity: 0.5" position="0 0 0"></a-entity> 
+-->
       
-        <a-entity collider-check geometry="primitive: sphere" position="0 0 -3" material='color: yellow'></a-entity>
+        <a-entity id='sp' aabb-collider class='collidable' geometry="primitive: box" position="4 0 -3" material='color: yellow'></a-entity>
         
-        <a-entity daydream-controls="hand: right">
-              <a-entity raycaster="objects: .collidable; showLine: true; far: 100" line="color: orange; opacity: 0.5" position="0 0 0"></a-entity>            
+        <a-entity id='dayd' daydream-controls="hand: right">
+            <a-entity id='cursor' cursor raycaster="objects: .collidable;" geometry="primitive: box; width: 0.2; height: 100; depth: 0.2" material="shader: flat; color:gray" position="0 -0.9 0" rotation="90 0 0" ></a-entity>
             <a-entity id="laserpointer" visible="false" position=" 0 0 -5"></a-entity>
         </a-entity>
         
         <a-sky color='black'></a-sky>
         
+        <script>
+            var scene= document.querySelector('#scene');
+            var s= document.querySelector('a-sky');
+            var sp=document.querySelector('#sp');
+            var cursor=document.querySelector('#cursor');
+            sp.addEventListener('collided', function(){
+                    s.setAttribute('color','red');
+                });
+        </script>
+        
+        <script>
+            var scene= document.querySelector('#scene');
+            var s= document.querySelector('a-sky');
+            var sp=document.querySelector('#sp');
+            sp.addEventListener('raycaster-intersected-cleared', function(){
+                s.setAttribute('color', 'black');
+            })
+        </script>
     </a-scene>  
   </body>
 </html>
