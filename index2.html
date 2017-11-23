@@ -9,23 +9,56 @@
   <body>
     <a-scene id="scene">
     
-        <a-camera>
-            <a-cursor color='white'> 
+  <!--  
               <a-entity raycaster="objects: .collidable; showLine: true; far: 100" line="color: orange; opacity: 0.5" position="0 0 0"></a-entity> 
-            </a-cursor>
-        </a-camera>
-
+-->
       
-        <a-entity collider-check geometry="primitive: box; color:green" position="0 0 -3"></a-entity>
+        <a-entity id='sp' collider-check class='collidable' geometry="primitive: sphere" position="4 0 -3" material='color: yellow'></a-entity>
         
-        <a-entity daydream-controls="hand: right">
-            <a-entity laser-controls line="color: red; opacity: 0.75"></a-entity>
-           <!-- <a-entity laser-controls raycaster="objects: .links; far: 5"></a-entity> -->
+        <a-entity id='dayd' daydream-controls="hand: right">
+            <a-entity id='cursor' cursor raycaster="objects: .collidable; showLine: true; far: 100" line="color: orange; opacity: 0.5" position="0 0 0"></a-entity> 
             <a-entity id="laserpointer" visible="false" position=" 0 0 -5"></a-entity>
         </a-entity>
         
         <a-sky color='black'></a-sky>
         
+        <script>
+            var scene= document.querySelector('#scene');
+            var s= document.querySelector('a-sky');
+            var sp=document.querySelector('#sp');
+            var cursor=document.querySelector('#cursor');
+            sp.addEventListener('raycaster-intersected', function(){
+                s.setAttribute('color', 'red');
+                scene.addEventListener('trackpaddown',function(){
+                    sp.parentNode.removeChild(sp);
+                    cursor.setAttribute('visible', false);
+                    var n= document.createElement('a-sphere');
+                    document.querySelector('#dayd').appendChild(n);
+                    n.setAttribute('color','yellow');
+                    n.setAttribute('id','n');
+                    n.setAttribute('position','0 0 -5');
+                });
+                scene.addEventListener('trackpadup',function(){
+                        var sp1= document.createElement('a-sphere');
+                        scene.appendChild(sp1);
+                        sp1.setAttribute('color','red');
+                        sp1.setAttribute('radius', '2');
+                        var spGialla= document.querySelector('#n');
+                        sp1.setAttribute('position', '-3 0 -4');
+                        cursor.setAttribute('visible', true);
+                        spGialla.parentNode.removeChild(spGialla);
+                });
+            });
+        </script>
+        
+        <script>
+            var scene= document.querySelector('#scene');
+            var s= document.querySelector('a-sky');
+            var sp=document.querySelector('#sp');
+            sp.addEventListener('raycaster-intersected-cleared', function(){
+                s.setAttribute('color', 'black');
+            })
+        </script>
     </a-scene>  
   </body>
 </html>

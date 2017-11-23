@@ -4,28 +4,23 @@
     <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
     <title>Hello, WebVR! - A-Frame</title>
     <meta name="description" content="Hello, WebVR! - A-Frame">
+    <script src='js/collidable.js'></script>
   </head>
   <body>
     <a-scene antialias="true" id="scene">
         
         <a-entity daydream-controls="hand: right">
-  	         <a-entity id="laserpointer" visible="false" position=" 0 0 -5"></a-entity>
+  	         <a-entity id="laserpointer" class="collidable"   geometry='primitive: sphere' visible="true" position=" 0 0 -5" material='color: green'></a-entity>
         </a-entity>
         
-        <a-entity geometry="primitive: box" material="color:yellow" position="0 2.5 -8" width="4" depth="4" height="4" ></a-entity>
+        <a-entity  geometry="primitive: box" material="color:yellow" position="0 2.5 -8" width="4" depth="4" height="4" collider-check></a-entity>
   
         <a-sky src="https://cdn.glitch.com/823bf6ce-5a8f-4dab-a813-00a0f8761f44%2F24119419788_2e07b2adf4_k.jpg?1509204758300"></a-sky>
 
-        <a-text value="Prova" scale="10 10 10" color="#E52B50" position="0 2.5 -10" align="center">
-        </a-text>
-        
-        <a-box id='toBring' visible="true" position="2 3 -5" width="2" depth="2" height="2" color="green">
-            <a-sphere id="touchpad-contact" visible="false" position="0 0.05 0" radius="2" color="pink"></a-sphere>
-        </a-box>
+        <a-box collider-check id='toBring' visible="true" position="2 3 -5" width="2" depth="2" height="2" color="green"></a-box>
         
     </a-scene>
       
-
       
       <script>
           var scene= document.querySelector("#scene");
@@ -35,14 +30,26 @@
           });
       </script>
       
+            <script>
+          var scene= document.querySelector("#scene");
+          scene.addEventListener('trackpadup', function(){
+             var sky= document.querySelector("a-sky");
+              sky.setAttribute('color','white');
+          });
+      </script>
+      
+      <script>
+          var b= document.querySelector('#toBring');
+        b.addEventListener('trackpaddown', function(){
+            b.setAttribute('color','white');
+        });
+      </script>
       
       <!-- script per rendere visibile puntatore se trackpad premuto -->
       <script>
         var pointer= document.querySelector('#laserpointer');
         pointer.addEventListener('trackpaddown', function addPointer(){
             pointer.setAttribute('visible','true');
-            pointer.setAttribute('geometry', "primitive: sphere");
-            pointer.setAttribute('material', "color: white"); 
         });
       </script>
       
@@ -58,27 +65,8 @@
       <script>
             var pointer= document.querySelector('#laserpointer');
             pointer.addEventListener('collide', function collision(){
-               if (pointer.getAttribute('visible')=='true')
-                {
                     document.querySelector('a-sky').setAttribute('color', 'black');
-                }
             });
      </script>
-      
-    
-      <!--crea una sfera rossa-->
-      <script>
-        var sphere= document.createElement('a-sphere');
-        sphere.setAttribute('radius', 1);
-        sphere.setAttribute('color', 'red');
-        sphere.setAttribute('id', 'sp');
-        document.querySelector("a-sky").appendChild(sphere);
-        sphere.setAttribute("position",'-2, 0, -7');  
-        console.log('id: '+sphere.getAttribute('id') );
-        var cam=document.querySelector('a-camera');
-      </script>
-      
-            
-    
   </body>
 </html>

@@ -11,16 +11,14 @@
     
         <a-camera>
             <a-cursor color='white'> 
-              <a-entity raycaster="objects: .collidable; showLine: true; far: 100" line="color: orange; opacity: 0.5" position="0 0 0"></a-entity> 
             </a-cursor>
         </a-camera>
 
       
-        <a-entity collider-check geometry="primitive: box; color:green" position="0 0 -3"></a-entity>
+        <a-entity collider-check geometry="primitive: sphere" position="0 0 -3" material='color: yellow'></a-entity>
         
         <a-entity daydream-controls="hand: right">
-            <a-entity laser-controls line="color: red; opacity: 0.75"></a-entity>
-           <!-- <a-entity laser-controls raycaster="objects: .links; far: 5"></a-entity> -->
+              <a-entity raycaster="objects: .collidable; showLine: true; far: 100" line="color: orange; opacity: 0.5" position="0 0 0"></a-entity>            
             <a-entity id="laserpointer" visible="false" position=" 0 0 -5"></a-entity>
         </a-entity>
         
