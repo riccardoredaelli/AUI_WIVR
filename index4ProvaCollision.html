@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-aabb-collider-component/dist/aframe-aabb-collider-component.min.js"></script>
+    <title>Hello, WebVR! - A-Frame</title>
+    <meta name="description" content="Hello, WebVR! - A-Frame">
+    <script src='js/collidable.js'></script>
+  </head>
+<body>  
+    <a-scene>
+    <a-camera>
+            <a-box id='box2' class="box" color="green" position="0 1 -5" aabb-collider="objects: .box" shadow></a-box>
+     </a-camera>
+    <a-box id='box1' color='blue' aabb-collider="objects: .box"></a-box>
+    <a-sky id='sky' color='white'></a-sky>
+  </a-scene>
+    
+    <script>
+        var b1= document.querySelector('#box1');
+        var b2= document.querySelector('#box2');
+        var s=  document.querySelector('#sky');
+        b1.addEventListener('hitstart', function(){
+            console.log('collisione');
+        })
+        
+    </script>
+</body>
+</html>
+    
+    
+    
+    
